@@ -25,8 +25,14 @@ public class FinanceiroApplication implements CommandLineRunner {
 		
 		Categoria cat1 = new Categoria("Informática");
 		Categoria cat2 = new Categoria("Escritório");
+		Categoria cat3 = new Categoria("Cama, Mesa e Banho");
+		Categoria cat4 = new Categoria("Eletrônicos");
+		Categoria cat5 = new Categoria("Jardinagem");
+		Categoria cat6 = new Categoria("Decoração");
+		Categoria cat7 = new Categoria("Perfumaria");
 		
-		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
+		
+		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		
 	}
 }
