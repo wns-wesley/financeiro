@@ -23,6 +23,8 @@ public class Lancamento implements Serializable {
 	
 	private String descricao;
 	
+	private double valor;
+	
 	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date dataVencimento;
 	
@@ -38,15 +40,16 @@ public class Lancamento implements Serializable {
 	
 	public Lancamento() {}
 
-	public Lancamento(String descricao, Date dataVencimento, TipoLancamento tipo) {
+	public Lancamento(String descricao, double valor, Date dataVencimento, TipoLancamento tipo) {
 		super();
 		this.descricao = descricao;
+		this.valor = valor;
 		this.dataVencimento = dataVencimento;
 		this.tipo = (tipo == null) ? null : tipo.getCod();
 	}
 
-	public Lancamento(Long id, String descricao, Date dataVencimento, TipoLancamento tipo) {
-		this(descricao, dataVencimento, tipo);
+	public Lancamento(Long id, String descricao, double valor, Date dataVencimento, TipoLancamento tipo) {
+		this(descricao, valor, dataVencimento, tipo);
 		this.id = id;
 	}
 
@@ -64,6 +67,14 @@ public class Lancamento implements Serializable {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public double getValor() {
+		return valor;
+	}
+
+	public void setValor(double valor) {
+		this.valor = valor;
 	}
 
 	public Date getDataVencimento() {

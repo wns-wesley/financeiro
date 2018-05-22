@@ -55,12 +55,12 @@ public class Fornecedor implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getCpfouCnpj() {
+	public String getCpfOuCnpj() {
 		return cpfOuCnpj;
 	}
 
-	public void setCpfouCnpj(String cpfouCnpj) {
-		this.cpfOuCnpj = cpfouCnpj;
+	public void setCpfOuCnpj(String cpfOuCnpj) {
+		this.cpfOuCnpj = cpfOuCnpj;
 	}
 
 	public List<Lancamento> getLancamentos() {
