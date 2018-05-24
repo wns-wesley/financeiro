@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.wnsilveira.financeiro.domain.enums.TipoFrequencia;
 import com.wnsilveira.financeiro.domain.enums.TipoLancamento;
 
 @Entity
@@ -28,7 +29,13 @@ public class Lancamento implements Serializable {
 	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date dataVencimento;
 	
-	private Integer tipo;
+	private Integer tipoLancamento;
+	
+	private boolean repete;
+	
+	private Integer quantidade;
+	
+	private Integer tipoFrequencia;
 	
 	@ManyToOne
 	@JoinColumn(name="categoria_id")
@@ -45,7 +52,7 @@ public class Lancamento implements Serializable {
 		this.descricao = descricao;
 		this.valor = valor;
 		this.dataVencimento = dataVencimento;
-		this.tipo = (tipo == null) ? null : tipo.getCod();
+		this.tipoLancamento = (tipo == null) ? null : tipo.getCod();
 	}
 
 	public Lancamento(Long id, String descricao, double valor, Date dataVencimento, TipoLancamento tipo) {
@@ -85,12 +92,12 @@ public class Lancamento implements Serializable {
 		this.dataVencimento = dataVencimento;
 	}
 
-	public TipoLancamento getTipo() {
-		return TipoLancamento.toEnum(tipo);
+	public TipoLancamento getTipoLancamento() {
+		return TipoLancamento.toEnum(tipoLancamento);
 	}
 
-	public void setTipo(TipoLancamento tipo) {
-		this.tipo = tipo.getCod();
+	public void setTipoLancamento(TipoLancamento tipoLancamento) {
+		this.tipoLancamento = tipoLancamento.getCod();
 	}
 
 	public Categoria getCategoria() {
@@ -107,6 +114,30 @@ public class Lancamento implements Serializable {
 
 	public void setFornecedor(Fornecedor fornecedor) {
 		this.fornecedor = fornecedor;
+	}
+
+	public boolean isRepete() {
+		return repete;
+	}
+
+	public void setRepete(boolean repete) {
+		this.repete = repete;
+	}
+
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
+	}
+
+	public TipoFrequencia getTipoFrequencia() {
+		return TipoFrequencia.toEnum(tipoFrequencia);
+	}
+
+	public void setTipoFrequencia(TipoFrequencia tipoFrequencia) {
+		this.tipoFrequencia = tipoFrequencia.getCod();
 	}
 
 	@Override

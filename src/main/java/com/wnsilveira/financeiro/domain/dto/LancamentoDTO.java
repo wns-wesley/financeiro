@@ -21,7 +21,7 @@ public class LancamentoDTO implements Serializable {
 		this.descricao = obj.getDescricao();
 		this.valor = obj.getValor();
 		this.dataVencimento = obj.getDataVencimento();
-		this.tipo = obj.getTipo().getCod();
+		this.tipo = obj.getTipoLancamento().getCod();
 	}
 
 	public Long getId() {

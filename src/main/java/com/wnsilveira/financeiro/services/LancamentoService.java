@@ -1,5 +1,7 @@
 package com.wnsilveira.financeiro.services;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.wnsilveira.financeiro.domain.Lancamento;
+import com.wnsilveira.financeiro.domain.enums.TipoFrequencia;
 import com.wnsilveira.financeiro.repositories.LancamentoRepository;
 import com.wnsilveira.financeiro.services.exceptions.DataIntegrityException;
 import com.wnsilveira.financeiro.services.exceptions.ObjectNotFoundException;
@@ -28,6 +31,9 @@ public class LancamentoService {
 	
 	public Lancamento insert(Lancamento obj) {
 		obj.setId(null);
+		if (obj.isRepete()) {
+			repeteLancamentos(obj);
+		}
 		return repo.save(obj);
 	}
 	
@@ -64,7 +70,31 @@ public class LancamentoService {
 		newObj.setDataVencimento(obj.getDataVencimento());
 		newObj.setCategoria(obj.getCategoria());
 		newObj.setFornecedor(obj.getFornecedor());
-		newObj.setTipo(obj.getTipo());
+		newObj.setTipoLancamento(obj.getTipoLancamento());
+	}
+	
+	private void repeteLancamentos(Lancamento obj) {
+		Integer quantidade = 0;
+		if (obj.getQuantidade() == null || obj.getQuantidade() == 0) {
+			quantidade = 12;
+		} else {
+			quantidade = obj.getQuantidade();
+		}
+		List<Lancamento> list = new ArrayList<>();
+		list.add(obj);
+		for (int i = 0; i < quantidade; i++) {
+			Lancamento newObj = list.get(i);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(newObj.getDataVencimento());
+			if (newObj.getTipoFrequencia().equals(TipoFrequencia.MENSAL) ) {
+				cal.add(Calendar.MONTH, 1);
+			} else if (newObj.getTipoFrequencia().equals(TipoFrequencia.DIARIO) ) {
+				cal.add(Calendar.DAY_OF_MONTH, 1);
+			}
+			newObj.setDataVencimento(cal.getTime());
+			list.add(newObj);
+		}
+		
 	}
 
 }
