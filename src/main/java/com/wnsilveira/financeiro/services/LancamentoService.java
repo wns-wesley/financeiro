@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.wnsilveira.financeiro.domain.Lancamento;
-import com.wnsilveira.financeiro.domain.dto.LancamentoDTO;
 import com.wnsilveira.financeiro.repositories.LancamentoRepository;
 import com.wnsilveira.financeiro.services.exceptions.DataIntegrityException;
 import com.wnsilveira.financeiro.services.exceptions.ObjectNotFoundException;
