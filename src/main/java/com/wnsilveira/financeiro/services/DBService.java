@@ -33,7 +33,7 @@ public class DBService {
 		Categoria cat2 = new Categoria("Educação");
 		Categoria cat3 = new Categoria("Saúde");
 		Categoria cat4 = new Categoria("Alimentação");
-		Categoria cat5 = new Categoria("Jardinagem");
+		Categoria cat5 = new Categoria("Serviço");
 		Categoria cat6 = new Categoria("Decoração");
 		Categoria cat7 = new Categoria("Perfumaria");
 		
@@ -49,21 +49,13 @@ public class DBService {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
-		Lancamento l1 = new Lancamento("Luz", 80.00, sdf.parse("10/05/2018"), TipoLancamento.DESPESA);
-		l1.setCategoria(cat1);
-		l1.setFornecedor(for3);
+		Lancamento l1 = new Lancamento("Serviço prestado", 1000, sdf.parse("01/05/2018"), TipoLancamento.RECEITA, false, false, null, null, cat5, for7);
 		
-		Lancamento l2 = new Lancamento("Boleto Unopar", 209.90, sdf.parse("20/05/2018"), TipoLancamento.DESPESA);
-		l2.setCategoria(cat2);
-		l2.setFornecedor(for2);
+		Lancamento l2 = new Lancamento("Boleto Unopar", 209.90, sdf.parse("20/05/2018"), TipoLancamento.DESPESA, false, false, null, null, cat2, for2);
 		
-		Lancamento l3 = new Lancamento("Mensalidade Moranguinho", 555.00, sdf.parse("08/05/2018"), TipoLancamento.DESPESA);
-		l3.setCategoria(cat2);
-		l3.setFornecedor(for1);
+		Lancamento l3 = new Lancamento("Mensalidade Moranguinho", 555.00, sdf.parse("08/05/2018"), TipoLancamento.DESPESA, false, false, null, null, cat2, for1);
 		
-		Lancamento l4 = new Lancamento("Chocolate", 20.00, sdf.parse("12/05/2018"), TipoLancamento.DESPESA);
-		l4.setCategoria(cat4);
-		l4.setFornecedor(for8);
+		Lancamento l4 = new Lancamento("Chocolate", 20.00, sdf.parse("12/05/2018"), TipoLancamento.DESPESA, false, false, null, null, cat4, for8);
 		
 		fornecedorRepository.saveAll(Arrays.asList(for1, for2, for3, for4, for5, for6, for7, for8, for9));
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));

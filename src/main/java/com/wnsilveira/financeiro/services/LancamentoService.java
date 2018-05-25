@@ -31,8 +31,9 @@ public class LancamentoService {
 	
 	public Lancamento insert(Lancamento obj) {
 		obj.setId(null);
-		if (obj.isRepete()) {
-			repeteLancamentos(obj);
+		if (obj.isRepete() || obj.isFixo()) {
+			repo.saveAll(repeteLancamentos(obj));
+			return obj;
 		}
 		return repo.save(obj);
 	}
@@ -73,28 +74,28 @@ public class LancamentoService {
 		newObj.setTipoLancamento(obj.getTipoLancamento());
 	}
 	
-	private void repeteLancamentos(Lancamento obj) {
+	private List<Lancamento> repeteLancamentos(Lancamento obj) {
 		Integer quantidade = 0;
-		if (obj.getQuantidade() == null || obj.getQuantidade() == 0) {
-			quantidade = 12;
-		} else {
-			quantidade = obj.getQuantidade();
+		if (obj.isRepete()) {
+			quantidade = obj.getQuantidade() - 1;
+		} else if (obj.isFixo()) {
+			quantidade = 5;
 		}
 		List<Lancamento> list = new ArrayList<>();
 		list.add(obj);
 		for (int i = 0; i < quantidade; i++) {
-			Lancamento newObj = list.get(i);
+			Lancamento newObj = new Lancamento(list.get(i));
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(newObj.getDataVencimento());
-			if (newObj.getTipoFrequencia().equals(TipoFrequencia.MENSAL) ) {
+			if (newObj.getTipoFrequencia().equals(TipoFrequencia.MENSAL)) {
 				cal.add(Calendar.MONTH, 1);
-			} else if (newObj.getTipoFrequencia().equals(TipoFrequencia.DIARIO) ) {
+			} else if (newObj.getTipoFrequencia().equals(TipoFrequencia.DIARIO)) {
 				cal.add(Calendar.DAY_OF_MONTH, 1);
 			}
 			newObj.setDataVencimento(cal.getTime());
 			list.add(newObj);
 		}
-		
+		return list;
 	}
 
 }

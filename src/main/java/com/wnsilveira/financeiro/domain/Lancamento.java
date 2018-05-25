@@ -33,6 +33,8 @@ public class Lancamento implements Serializable {
 	
 	private boolean repete;
 	
+	private boolean fixo;
+	
 	private Integer quantidade;
 	
 	private Integer tipoFrequencia;
@@ -47,17 +49,32 @@ public class Lancamento implements Serializable {
 	
 	public Lancamento() {}
 
-	public Lancamento(String descricao, double valor, Date dataVencimento, TipoLancamento tipo) {
+	public Lancamento(String descricao, double valor, Date dataVencimento, TipoLancamento tipoLancamento,
+			boolean repete, boolean fixo, Integer quantidade, TipoFrequencia tipoFrequencia, Categoria categoria,
+			Fornecedor fornecedor) {
 		super();
 		this.descricao = descricao;
 		this.valor = valor;
 		this.dataVencimento = dataVencimento;
-		this.tipoLancamento = (tipo == null) ? null : tipo.getCod();
+		this.tipoLancamento = (tipoLancamento == null) ? null : tipoLancamento.getCod();
+		this.repete = repete;
+		this.fixo = fixo;
+		this.quantidade = quantidade;
+		this.tipoFrequencia = (tipoFrequencia == null) ? null : tipoFrequencia.getCod();
+		this.categoria = categoria;
+		this.fornecedor = fornecedor;
 	}
-
-	public Lancamento(Long id, String descricao, double valor, Date dataVencimento, TipoLancamento tipo) {
-		this(descricao, valor, dataVencimento, tipo);
+	
+	public Lancamento(Long id, String descricao, double valor, Date dataVencimento, TipoLancamento tipoLancamento,
+			boolean repete, boolean fixo, Integer quantidade, TipoFrequencia tipoFrequencia, Categoria categoria,
+			Fornecedor fornecedor) {
+		this(descricao, valor, dataVencimento, tipoLancamento, repete, fixo, quantidade, tipoFrequencia, categoria, fornecedor);
 		this.id = id;
+	}
+	
+	public Lancamento(Lancamento obj) {
+		this(obj.getId(), obj.getDescricao(), obj.getValor(), obj.getDataVencimento(), obj.getTipoLancamento(),
+			obj.isRepete(), obj.isFixo(), obj.getQuantidade(), obj.getTipoFrequencia(), obj.getCategoria(), obj.getFornecedor());
 	}
 
 	public Long getId() {
@@ -122,6 +139,14 @@ public class Lancamento implements Serializable {
 
 	public void setRepete(boolean repete) {
 		this.repete = repete;
+	}
+
+	public boolean isFixo() {
+		return fixo;
+	}
+
+	public void setFixo(boolean fixo) {
+		this.fixo = fixo;
 	}
 
 	public Integer getQuantidade() {
