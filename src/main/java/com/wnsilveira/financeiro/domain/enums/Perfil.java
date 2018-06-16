@@ -1,14 +1,13 @@
 package com.wnsilveira.financeiro.domain.enums;
 
-public enum TipoLancamento {
+public enum Perfil {
 	
-	RECEITA(1, "Receita"),
-	DESPESA(2, "Despesa");
+	ADMIN(1, "ROLE_ADMIN");
 	
 	private int cod;
 	private String descricao;
 	
-	private TipoLancamento(int cod, String descricao) {
+	private Perfil(int cod, String descricao) {
 		this.cod = cod;
 		this.descricao = descricao;
 	}
@@ -21,11 +20,11 @@ public enum TipoLancamento {
 		return descricao;
 	}
 
-	public static TipoLancamento toEnum(Integer cod) {
+	public static Perfil toEnum(Integer cod) {
 		if (cod == null) {
 			return null;
 		}
-		for (TipoLancamento x : TipoLancamento.values()) {
+		for (Perfil x : Perfil.values()) {
 			if (cod.equals(x.getCod())) {
 				return x;
 			}

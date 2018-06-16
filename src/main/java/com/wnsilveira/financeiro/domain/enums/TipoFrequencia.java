@@ -29,9 +29,9 @@ public enum TipoFrequencia {
 		if (cod == null) {
 			return null;
 		}
-		for (TipoFrequencia tipoFrequencia: TipoFrequencia.values()) {
-			if (cod.equals(tipoFrequencia.getCod())) {
-				return tipoFrequencia;
+		for (TipoFrequencia x: TipoFrequencia.values()) {
+			if (cod.equals(x.getCod())) {
+				return x;
 			}
 		}
 		throw new IllegalArgumentException("Código inválido: " + cod);

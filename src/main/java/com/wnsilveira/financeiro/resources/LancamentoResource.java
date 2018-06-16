@@ -1,8 +1,6 @@
 package com.wnsilveira.financeiro.resources;
 
 import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.wnsilveira.financeiro.domain.Lancamento;
-import com.wnsilveira.financeiro.domain.dto.LancamentoDTO;
 import com.wnsilveira.financeiro.services.LancamentoService;
 
 @RestController
@@ -54,22 +51,20 @@ public class LancamentoResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<List<LancamentoDTO>> findAll() {
-		List<Lancamento> list = service.findAll();
-		List<LancamentoDTO> listDTO = list.stream().map(obj -> new LancamentoDTO(obj)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDTO);
-	}
+//	@RequestMapping(method=RequestMethod.GET)
+//	public ResponseEntity<List<Lancamento>> findAll() {
+//		List<Lancamento> list = service.findAll();
+//		return ResponseEntity.ok().body(list);
+//	}
 	
-	@RequestMapping(value="/page", method=RequestMethod.GET)
-	public ResponseEntity<Page<LancamentoDTO>> findPage(
+	@RequestMapping(method=RequestMethod.GET)
+	public ResponseEntity<Page<Lancamento>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page,
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
 			@RequestParam(value="orderBy", defaultValue="dataVencimento") String orderBy,
 			@RequestParam(value="direction", defaultValue="DESC") String direction) {
 		Page<Lancamento> list = service.findPage(page, linesPerPage, orderBy, direction);
-		Page<LancamentoDTO> listDTO = list.map(obj -> new LancamentoDTO(obj));
-		return ResponseEntity.ok().body(listDTO);
+		return ResponseEntity.ok().body(list);
 	}
 	
 }

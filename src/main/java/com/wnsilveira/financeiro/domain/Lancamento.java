@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wnsilveira.financeiro.domain.enums.TipoFrequencia;
 import com.wnsilveira.financeiro.domain.enums.TipoLancamento;
 
@@ -47,11 +48,16 @@ public class Lancamento implements Serializable {
 	@JoinColumn(name="fornecedor_id")
 	private Fornecedor fornecedor;
 	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name="usuario_id")
+	private Usuario usuario;
+	
 	public Lancamento() {}
 
 	public Lancamento(String descricao, double valor, Date dataVencimento, TipoLancamento tipoLancamento,
 			boolean repete, boolean fixo, Integer quantidade, TipoFrequencia tipoFrequencia, Categoria categoria,
-			Fornecedor fornecedor) {
+			Fornecedor fornecedor, Usuario usuario) {
 		super();
 		this.descricao = descricao;
 		this.valor = valor;
@@ -63,18 +69,19 @@ public class Lancamento implements Serializable {
 		this.tipoFrequencia = (tipoFrequencia == null) ? null : tipoFrequencia.getCod();
 		this.categoria = categoria;
 		this.fornecedor = fornecedor;
+		this.usuario = usuario;
 	}
 	
 	public Lancamento(Long id, String descricao, double valor, Date dataVencimento, TipoLancamento tipoLancamento,
 			boolean repete, boolean fixo, Integer quantidade, TipoFrequencia tipoFrequencia, Categoria categoria,
-			Fornecedor fornecedor) {
-		this(descricao, valor, dataVencimento, tipoLancamento, repete, fixo, quantidade, tipoFrequencia, categoria, fornecedor);
+			Fornecedor fornecedor, Usuario usuario) {
+		this(descricao, valor, dataVencimento, tipoLancamento, repete, fixo, quantidade, tipoFrequencia, categoria, fornecedor, usuario);
 		this.id = id;
 	}
 	
 	public Lancamento(Lancamento obj) {
 		this(obj.getId(), obj.getDescricao(), obj.getValor(), obj.getDataVencimento(), obj.getTipoLancamento(),
-			obj.isRepete(), obj.isFixo(), obj.getQuantidade(), obj.getTipoFrequencia(), obj.getCategoria(), obj.getFornecedor());
+			obj.isRepete(), obj.isFixo(), obj.getQuantidade(), obj.getTipoFrequencia(), obj.getCategoria(), obj.getFornecedor(), obj.getUsuario());
 	}
 
 	public Long getId() {
@@ -163,6 +170,14 @@ public class Lancamento implements Serializable {
 
 	public void setTipoFrequencia(TipoFrequencia tipoFrequencia) {
 		this.tipoFrequencia = tipoFrequencia.getCod();
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	@Override

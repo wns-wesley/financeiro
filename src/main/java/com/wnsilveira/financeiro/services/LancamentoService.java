@@ -13,8 +13,11 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.wnsilveira.financeiro.domain.Lancamento;
+import com.wnsilveira.financeiro.domain.Usuario;
 import com.wnsilveira.financeiro.domain.enums.TipoFrequencia;
 import com.wnsilveira.financeiro.repositories.LancamentoRepository;
+import com.wnsilveira.financeiro.security.UserSS;
+import com.wnsilveira.financeiro.services.exceptions.AuthorizationException;
 import com.wnsilveira.financeiro.services.exceptions.DataIntegrityException;
 import com.wnsilveira.financeiro.services.exceptions.ObjectNotFoundException;
 
@@ -23,6 +26,9 @@ public class LancamentoService {
 	
 	@Autowired
 	private LancamentoRepository repo;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 	
 	public Lancamento find(Long id) {
 		Optional<Lancamento> obj = repo.findById(id);
@@ -58,8 +64,13 @@ public class LancamentoService {
 	}
 	
 	public Page<Lancamento> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return repo.findAll(pageRequest);
+		Usuario usuario = usuarioService.find(user.getId());
+		return repo.findByUsuario(usuario, pageRequest);
 	}
 	
 //	public Lancamento fromDTO(LancamentoDTO objDTO) {
